@@ -1,0 +1,84 @@
+<suite name="TrainingTestSuite" parallel="tests" thread-count="10">
+
+	<parameter name="userName" value="user"></parameter>
+	<parameter name="password" value="user"></parameter>
+	<parameter name="excelPath" value="Resources\\TestData.xls"></parameter>
+	<parameter name="sheetName" value="Login"></parameter>
+	<parameter name="tableName" value="DevEnv"></parameter>
+
+
+
+	<!-- <test name="Understanding Testng Annotations"> <classes> <class name="org.testng.TestngAnnotationsExample" 
+		/> <class name="org.testng.ActiTimeLoginTest" /> </classes> </test> <test 
+		name="Testing Login in ActiTime Application using Firefox"> <parameter name="browserName" 
+		value="Firefox"></parameter> <parameter name="url" value="http://demo.actitime.com/login.do"></parameter> 
+		<classes> <class name="org.testng.ActiTimeLoginTest" /> </classes> </test> 
+		<test name="Testing Login in ActiTime Application using Chrome"> <parameter 
+		name="browserName" value="Chrome"></parameter> <parameter name="url" value="http://demo.actitime.com/login.do"></parameter> 
+		<classes> <class name="org.testng.ActiTimeLoginTest" /> </classes> </test> 
+		<test name="Testing Login in ActiTime Application using IExplore"> <parameter 
+		name="browserName" value="IExplore"></parameter> <parameter name="url" value="http://demo.actitime.com/login.do"></parameter> 
+		<classes> <class name="org.testng.ActiTimeLoginTest" /> </classes> </test> 
+		<test name="Testing Registration on Mercury Application "> <parameter name="browserName" 
+		value="Firefox"></parameter> <parameter name="url" value="http://newtours.demoaut.com/"></parameter> 
+		<classes> <class name="org.testng.RegistrationTest" /> </classes> </test> 
+		<test name="Selecting Windows"> <parameter name="browserName" value="Firefox"></parameter> 
+		<parameter name="url" value="http://demo.actitime.com/login.do"></parameter> 
+		<classes> <class name="org.testng.SwitchToWindowsTest" /> </classes> </test> 
+		<test name="Testing Alerts using Firefox"> <parameter name="browserName" 
+		value="Firefox"></parameter> <parameter name="url" value="https://secure.aponline.gov.in/CitizenPortal/UserInterface/Citizen/LoginForm.aspx"></parameter> 
+		<classes> <class name="org.testng.HandleAlertsTest" /> </classes> </test> 
+		<test name="Testing Frames"> <parameter name="browserName" value="Firefox"></parameter> 
+		<parameter name="url" value="http://seleniumhq.github.io/selenium/docs/api/java/"></parameter> 
+		<classes> <class name="org.testng.SwitchToFramesTest" /> </classes> </test> 
+		<test name="Testing Webtable"> <parameter name="url" value="http://www.w3schools.com/html/html_tables.asp"></parameter> 
+		<parameter name="browserName" value="Firefox"></parameter> <classes> <class 
+		name="org.testng.GetWebTableDataTest" /> </classes> </test> <test name="Testing 
+		DataProvider"> <classes> <class name="org.testng.DataProviderExample" /> 
+		</classes> </test> <test name="Testing DataProvider"> <classes> <class name="org.testng.DataProviderNextClass" 
+		/> </classes> </test> <test name="Testing Login on Actitime Application using 
+		Firefox"> <parameter name="browserName" value="Firefox"></parameter> <parameter 
+		name="url" value="http://demo.actitime.com/login.do"></parameter> <parameter 
+		name="sheetName" value="Login"></parameter> <parameter name="tableName" value="DevEnv"></parameter> 
+		<classes> <class name="org.testng.ActiTimeLoginTest" /> </classes> </test> 
+		<test name="Testing series of actions"> <parameter name="browserName" value="Firefox"></parameter> 
+		<parameter name="url" value="http://www.google.co.in/"></parameter> <classes> 
+		<class name="org.testng.SeriesOfActionsTest" /> </classes> </test> <test 
+		name="Testing js executor"> <parameter name="browserName" value="Firefox"></parameter> 
+		<parameter name="url" value="http://www.google.co.in/"></parameter> <classes> 
+		<class name="org.testng.JsExecutorTest" /> </classes> </test> <test name="Testing 
+		taking screen shots"> <parameter name="browserName" value="IExplore"></parameter> 
+		<parameter name="url" value="http://www.google.co.in/"></parameter> <classes> 
+		<class name="org.testng.TakeScreenShotTest" /> </classes> </test> <test name="Testing 
+		Screen shots"> <parameter name="browserName" value="Firefox"></parameter> 
+		<parameter name="url" value="http://www.google.co.in/"></parameter> <classes> 
+		<class name="org.testng.TakeScreenShotOnFailureTest" /> </classes> </test> 
+		<test name="Testing DB Connection"> <classes> <class name="org.testng.DbConnectionAndRetrieveData" 
+		/> </classes> </test> <test name="Testing Grid test1"> <parameter name="url" 
+		value="http://newtours.demoaut.com/"></parameter> <classes> <class name="org.grid.GridTest1" 
+		/> </classes> </test> <test name="Testing Grid test2"> <parameter name="url" 
+		value="http://newtours.demoaut.com/"></parameter> <classes> <class name="org.grid.GridTest2" 
+		/> </classes> </test> <test name="Testing Grid Test3"> <parameter name="url" 
+		value="http://newtours.demoaut.com/"></parameter> <classes> <class name="org.grid.GridTest3" 
+		/> </classes> </test> -->
+
+	<test name="Testing file upload using sikuli tool">
+		<parameter name="browserName" value="Firefox"></parameter>
+		<parameter name="url" value="https://mail.google.com"></parameter>
+		<classes>
+			<class name="org.testng.FileUploadTest" />
+		</classes>
+	</test>
+
+</suite>
+
+
+
+
+
+
+
+
+
+
+

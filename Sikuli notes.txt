@@ -1,0 +1,80 @@
+Sikuli Intgration with Selenium:
+
+To download sikuli go to below Url,
+
+https://launchpad.net/sikuli/+download
+
+--> Sikuli is a image based tool , which will identify objects based on images.
+--> It cannot identify objects and execute actions on background. Objects should be active.
+
+Sikuli Installation:
+
+--> Download 'SikuliXSetup.jar' file into your local system .
+
+--> Create folder name 'SikuliX' and place the jar file .
+
+--> Double click on SikulixSetup.jar file and it will ask you to install and click on ok.
+--> Select first check box and Secound check box --> Click on Setupnow.
+
+--> If setup is completed , you will see runsikulix.cmd,sikulixapi.jar files  and etc
+
+--> To sikuli IDE --> click on runsikulix.cmd --> it will open sikuli ide, this will usefull for taking images.
+
+--> To use sikuli with selenium --> copy sikulixapi.jar file into eclipse WebdriverLibs folder and set classpath\buildpath to eclipse.
+
+1) Write a program to upload file using Sikuli tool?
+
+--> Take all images related upload file using sikuli ide and save those images in your local drive -->Create a folder in eclipse(WebDriver Project)with the name 'Images' --> copy those images into Images folder and use in pragram.
+
+package com.testng;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.sikuli.script.Pattern;
+import org.sikuli.script.Screen;
+import org.testng.annotations.Test;
+
+import commonlibrary.CommonFunctions;
+
+public class FileUpload extends CommonFunctions{
+
+	
+	@Test
+	public static void upload() throws Exception{
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		
+	driver.findElement(By.id("Email")).sendKeys("seleniumwebdriver167");
+	driver.findElement(By.id("next")).click();
+	driver.findElement(By.id("Passwd")).sendKeys("seleniumwebdriver167");
+	driver.findElement(By.id("signIn")).click();
+	driver.findElement(By.xpath("//div[contains(text(),'COMPOSE')]")).click();
+	driver.findElement(By.name("to")).sendKeys("vdskdlvn@gmail.com");
+	driver.findElement(By.name("subjectbox")).sendKeys("UploadFile");
+	WebElement attachFileElement=	driver.findElement(By.xpath("//div[text()='Send']/ancestor::tr/td[4]/div/div"));	
+	JavascriptExecutor jse = (JavascriptExecutor) driver;
+	jse.executeScript("arguments[0].click()", attachFileElement);
+	Thread.sleep(2000);
+		Screen screen = new Screen();
+		Pattern pattern = new Pattern("Images\\Filename.png");
+		screen.type(pattern.similar((float) 0.76).targetOffset(-78, -1), 
+				"E:\\SeleniumTrainingV2.doc");
+		Thread.sleep(2000);
+		screen.click("Images\\Open.png");
+		Thread.sleep(5000);	
+	WebElement sendFileElement=driver.findElement(By.xpath("//div[text()='Send']"));
+	jse.executeScript("arguments[0].click()", sendFileElement);
+	
+	}
+}
+
+	<test name="Testing file upload using sikuli tool">
+		<parameter name="browserName" value="Firefox"></parameter>
+		<parameter name="url" value="https://mail.google.com"></parameter>
+		<classes>
+			<class name="com.testng.FileUpload" />
+		</classes>
+	</test>
+

@@ -1,0 +1,734 @@
+--> Write program to get the values from web table?
+
+package com.testng;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.Reporter;
+import org.testng.annotations.Test;
+
+import com.commonlibrary.CommonFunctions;
+
+public class GetWebTableData extends CommonFunctions{
+	
+	@Test
+	public void testWebtable(){
+		
+	driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		
+				
+		WebElement tableElement = driver.findElement(By.className("w3-table-all"));
+		
+        List<WebElement> tableRows=tableElement.findElements(By.tagName("tr"));
+
+        Reporter.log("NUMBER OF ROWS IN THIS TABLE = "+tableRows.size(),true);
+        
+         
+        for(WebElement tableRow : tableRows)
+        {
+            List<WebElement> tableColumns=tableRow.findElements(By.tagName("td"));
+            
+            Reporter.log("NUMBER OF COLUMNS = "+tableColumns.size(),true);
+            
+           
+            for(WebElement tableColumn : tableColumns)
+            {
+                Reporter.log(tableColumn.getText(),true);
+     
+            }
+             }
+	}
+}
+
+<test name="Testing Webtable">
+		<parameter name="url" value="http://www.w3schools.com/html/html_tables.asp"></parameter>
+		 <parameter name="browserName" value="Firefox"></parameter> 
+		<classes>
+			<class name="com.testng.GetWebTableData" />
+		</classes>
+	</test>
+
+--> @DataProvider
+
+1) It will usefull for iterating @Test annotation methods based 
+on the sets of data available in data source.
+2) We can pass DataProvider data to @Test annotated methods
+3) DataProvider returns and stores data in two dimentional array format and that to two dimentional Object array type
+4)DataProvider methods should be Static methods
+
+--> Write a program to understand Dataprovider annotation?
+
+package com.testng;
+
+import org.testng.Reporter;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+public class DataProviderExample {
+	
+	@DataProvider(name="test")
+	public static Object[][] getData() {
+
+		Object[][] data = new Object[3][2];
+
+			data[0][0] = "Test1";
+			data[0][1] = 123;
+
+			data[1][0] = "Test2";
+			data[1][1] = 321;
+
+			data[2][0] = "Test3";
+			data[2][1] = 435;
+	
+		return data;
+	}
+
+	@Test(dataProvider = "test")
+	public void testCaseOne(String data1, int data2) {
+
+		Reporter.log(data1, true);
+		Reporter.log(String.valueOf(data2), true);
+	}
+	
+	@Test(dataProvider = "test")
+	public void testCaseTwo(String data3, int data4) {
+
+		Reporter.log(data3, true);
+		Reporter.log(String.valueOf(data4), true);
+	}
+
+
+}
+
+<test name="Testing DataProvider">
+		<classes>
+			<class name="com.testng.DataProviderExample" />
+		</classes>
+	</test>
+
+package com.testng;
+
+import org.testng.Reporter;
+import org.testng.annotations.Test;
+
+public class DataProviderNextClass {
+
+	@Test(dataProvider ="test", dataProviderClass = DataProviderExample.class)
+	public void testCaseTwo(String data3, int data4) {
+
+		Reporter.log(data3, true);
+		Reporter.log(String.valueOf(data4), true);
+	}
+
+}
+
+<test name="Testing DataProvider">
+		<classes>
+			<class name="com.testng.DataProviderNextClass" />
+		</classes>
+	</test>
+
+-->Write a program to read data from excel sheets using Dataprovider annotation and Jxl jar file?
+
+--> Goto below url and choose latest version and download the jar file:
+
+http://www.java2s.com/Code/Jar/j/jxl.htm
+
+package com.testng;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.commonlibrary.CommonFunctions;
+
+public class ActiTimeLogin extends CommonFunctions {
+
+	package com.testng;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.Reporter;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.commonlibrary.CommonFunctions;
+
+public class ActiTimeLoginTest extends CommonFunctions{	
+	
+	@DataProvider(name = "Login")
+	public Object[][] createData()  {
+		Object[][] testData = getTestData("TestData.xls", "Login", "LoginData");
+		return testData;
+	}
+
+	@Test(dataProvider="Login")
+	public void loginTest(String userName,String password) {
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		WebElement objUserName = driver.findElement(By.name("username"));
+		if (objUserName.isDisplayed()) {
+			Reporter.log("Username element found in Application and Script executing ....",true);
+			if (objUserName.isEnabled()) {
+				Reporter.log("Username element is enable for typing");
+				objUserName.sendKeys(userName);
+				driver.findElement(By.name("pwd")).sendKeys(password);
+				driver.findElement(By.xpath("//a[@id='loginButton']/div"))
+						.click();
+				driver.findElement(By.linkText("Logout")).click();
+			} else {
+				Reporter.log("Username element is disable for typing");
+			}
+		}
+
+		else {
+			Reporter.log("Username element not found in Application");
+		}
+	}
+
+	
+
+}
+
+
+//Copy Below method in CommonFunctions 
+
+public static String[][] getTestData(String excelPath, String sheetName,String tableName) {
+		
+		String[][] testData = null;
+
+		try {
+
+			Workbook workbook = Workbook.getWorkbook(new File(excelPath));
+			Sheet sheet = workbook.getSheet(sheetName);
+
+			int ci, cj, rowStart, rowEnd, colStart, colEnd;
+
+			Cell tableStart = sheet.findCell(tableName);
+
+			rowStart = tableStart.getRow();
+			colStart = tableStart.getColumn();
+
+			Cell tableEnd = sheet.findCell(tableName, colStart + 1,
+					rowStart + 1, 100, 64000, false);
+
+			rowEnd = tableEnd.getRow();
+			colEnd = tableEnd.getColumn();
+
+			// TestData=new String[10-5-1][10-2-1];
+			testData = new String[rowEnd - rowStart - 1][colEnd - colStart - 1];
+
+			ci = 0; // to store data into two dimensional array row wise
+			for (int i = rowStart + 1; i < rowEnd; i++, ci++) {
+
+				cj = 0; // to store data into two dimensional array column wise
+				for (int j = colStart + 1; j < colEnd; j++, cj++) {
+					testData[ci][cj] = sheet.getCell(j, i).getContents();
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		return testData;
+	}
+
+
+//Copy below Class in XML file
+
+<test name="Testing Login on Actitime Application using Firefox">
+		<parameter name="browser" value="Firefox"></parameter>
+		<parameter name="url" value="http://demo.actitime.com/login.do"></parameter>
+		<classes>
+			<class name="com.testng.ActiTimeLogin" />
+		</classes>
+	</test>
+
+
+--> Write a program using Action class in webdriver by doing series of actions?
+
+
+package com.webdriver;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.Test;
+
+import commonlibrary.CommonFunctions;
+
+public class SeriesOfActions extends CommonFunctions{	
+	
+	@Test
+	public static void testActions(){
+		
+		WebElement element = driver.findElement(By.name("q"));
+		
+		Actions builder = new Actions(driver);
+
+		   Action setOfActions= builder
+		       .moveToElement(element).click()
+		       .keyDown(element,Keys.SHIFT)
+		       .sendKeys(element,"selenium")
+		       .keyUp(element, Keys.SHIFT)
+.sendKeys(element,Keys.SPACE)
+		       .sendKeys(element, Keys.chord(Keys.CONTROL,"a"))
+		       
+		       .contextClick(element)
+		       .sendKeys(Keys.ARROW_DOWN)
+		       .sendKeys(Keys.ENTER)
+		       .build();
+		   setOfActions.perform();
+		
+	}
+}
+
+<test name="Testing series of actions">
+ <parameter name="browserName" value="Firefox"></parameter>  
+<parameter name="url" value="http://www.google.co.in/"></parameter>
+  <classes>    
+	 <class name="com.testng.SeriesOfActions" />      
+  </classes>
+</test>
+
+**Working with Js Executor:
+
+package com.testng;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.testng.Reporter;
+import org.testng.annotations.Test;
+
+import com.commonlibrary.CommonFunctions;
+
+public class JsExecutor extends CommonFunctions{
+
+	@Test
+	public void testJsExecutor() {
+
+		String title = ((JavascriptExecutor) driver)
+				.executeScript("return document.title;").toString();
+		Reporter.log(title);
+
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		
+		jse.executeScript("document.getElementById('lst-ib').value = 'selenium'");
+
+		WebElement searchBox = driver.findElement(By.name("q"));
+
+		highlight(searchBox);
+
+		jse.executeScript("arguments[0].value = 'selenium testing'", searchBox);
+
+		WebElement searchButton = driver.findElement(By.name("btnG"));
+
+		highlight(searchButton);
+
+		jse.executeScript("arguments[0].click()", searchButton);
+
+	}
+
+	public static void highlight(WebElement element) {
+
+		((JavascriptExecutor) driver).executeScript(
+				"arguments[0].style.border='4px solid yellow'", element);
+
+	}
+
+}
+
+<test name="Testing js executor"> 
+<parameter name="browserName" value="Firefox"></parameter> 
+<parameter name="url" value="http://www.google.co.in/"></parameter>
+  <classes>    
+	 <class name="com.testng.JsExecutor" />      
+  </classes>
+</test>
+
+--> Write a program to Take ScreenShot and saving in system folder?
+package com.testng;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.testng.Reporter;
+import org.testng.annotations.Test;
+
+import com.commonlibrary.CommonFunctions;
+
+public class TakingScreenShot extends CommonFunctions{
+	
+	@Test
+	public void takeScreenShot() {
+		
+		File screenShot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);		
+		try {
+			String screenShotLocation = "E:\\ScreenShots\\ScreenShot.png";
+			FileUtils.copyFile(screenShot, new File(screenShotLocation));			
+			Reporter.log("<a href=file:///" + screenShotLocation + ">Screen Shot Link</a>");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+}
+
+<test name="Testing taking screen shots">
+	    <parameter name="browserName" value="IExplore"></parameter> 
+		<parameter name="url" value="http://www.google.co.in/"></parameter>
+		<classes>
+			<class name="com.testng.TakeScreenShot" />
+		</classes>
+	</test>
+
+--> Write a program to take screen shot on failure?
+
+package com.testng;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.commonlibrary.CommonFunctions;
+
+public class ScreenShotOnFail extends CommonFunctions{
+	
+	static EventFiringWebDriver eDriver;
+
+	@BeforeMethod
+	public  void setUp() {
+		eDriver = new EventFiringWebDriver(driver);
+		eDriver.register(new EventFiring());
+		}
+
+	@Test
+	public static void test() {
+		eDriver.findElement(By.name("qq")).sendKeys("Selenium");
+	}	
+
+}
+
+
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.events.WebDriverEventListener;
+import org.testng.Reporter;
+
+public class EventFiring extends CommonFunctions implements WebDriverEventListener {
+
+	@Override
+	public void onException(Throwable exception, WebDriver driver) {
+		File screenShot = ((TakesScreenshot) driver)
+				.getScreenshotAs(OutputType.FILE);
+		try {
+			String timeStamp=getTimeStamp();
+			String screenShotLocation = "E:\\ScreenShots\\exception"+timeStamp+".png";
+			FileUtils.copyFile(screenShot, new File(screenShotLocation));
+			Reporter.log("<a href=file:///" + screenShotLocation + ">Screen Shot Link</a>");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+<test name="Testing Screen shots">
+	    <parameter name="browserName" value="Firefox"></parameter> 
+		<parameter name="url" value="http://www.google.co.in/"></parameter>
+		<classes>
+			<class name="com.testng.ScreenShotOnFailure" />
+		</classes>
+	</test>
+
+
+//Add below code in CommonFunctions
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public static String getTimeStamp() {
+
+		Date date = new Date();
+
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+		String currentTimeStamp = dateFormat.format(date);
+
+		return currentTimeStamp;
+	}
+Selenium grid2 or RemoteWebDriver:
+
+--> Goto below URl and download selenium-server-standalone-<version>.jar file and place it in workspace.
+
+http://selenium-release.storage.googleapis.com/index.html
+
+--> How to execute selenium server from cmd?
+
+1) point  directory to selenium server jar.
+
+2) Type "java -jar selenium-server-standalone-<version>.jar"
+
+3) Execute and observe selenium server up and running with 4444 port.
+
+---> Running selenium grid
+
+1) open cmd and point  directory to selenium server jar.
+
+2) Type "java -jar selenium-server-standalone-<version>.jar -role hub"
+
+3) Execute and observe selenium hub up and running with 4444 port.
+
+4) open new cmd and point directory to selenium server jar.
+
+5) Type "java -jar selenium-server-standalone-<version>.jar -role node -hub
+ http://localhost:4444/grid/register -Dwebdriver.ie.driver=Path of iedriver.exe -Dwebdriver.chrome.driver=path of Chromedriver.exe"
+
+6) Execute and observe selenium node up and running with 5555 port.
+
+7) To verify whether node is available open below url in any browser,we will see node browsers.
+
+ http://localhost:4444/grid/console
+
+ Now we are ready to execute our scripts against grid 
+
+Example scripts:
+
+Script 1:
+
+package com.testng;
+
+import java.net.URL;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+public class GridTest1 {
+
+	public static WebDriver driver;
+
+	@BeforeClass
+	@Parameters({"url" })
+	public void setUp(String url) throws Exception{
+		DesiredCapabilities capability =DesiredCapabilities.firefox();
+		driver =new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capability);
+		driver.get(url);
+		driver.manage().window().maximize();
+	}
+
+	@Test()
+	public static void loginTest() throws Exception{
+
+		WebElement element=driver.findElement(By.name("userName"));
+		element.sendKeys("mercury");
+Thread.sleep(3000);
+		driver.findElement(By.name("password")).sendKeys("mercury");
+		driver.findElement(By.name("login")).click();
+		driver.findElement(By.linkText("SIGN-OFF")).click();
+	}
+
+	@AfterClass
+	public void tearDown() {
+		driver.quit();
+	}
+
+}
+
+Script 2:
+
+package com.testng;
+
+import java.net.URL;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+public class GridTest2 {
+	public static WebDriver driver;
+
+	@BeforeClass
+	@Parameters({"url" })
+	public void setUp(String url) throws Exception{
+		DesiredCapabilities capability =DesiredCapabilities.firefox();
+		driver =new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capability);
+		driver.get(url);
+		driver.manage().window().maximize();
+	}
+
+	@Test()
+	public static void loginTest() {
+
+		WebElement element=driver.findElement(By.name("userName"));
+		element.sendKeys("mercury");
+		driver.findElement(By.name("password")).sendKeys("mercury");
+		driver.findElement(By.name("login")).click();
+		driver.findElement(By.linkText("SIGN-OFF")).click();
+	}
+
+	@AfterClass
+	public void tearDown() {
+		driver.quit();
+	}
+}
+
+XML File :
+
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="TrainingTestSuite" annotations="JDK" thread-count="10" parallel="tests">
+
+
+	<test name="Testing Grid test1">
+	<parameter name="url" value="http://newtours.demoaut.com/"></parameter>
+
+		<classes>
+			<class name="com.grid.GridTest1" />
+		</classes>
+
+	</test>
+	<test name="Testing Grid Test2">
+	<parameter name="url" value="http://newtours.demoaut.com/"></parameter>
+
+		<classes>
+			<class name="com.grid.GridTest2" />
+		</classes>
+
+	</test>
+	
+
+</suite>
+
+1) write a program to Connect database(MSsql) and retrieve data through jdbc driver?
+
+http://www.microsoft.com/en-us/download/details.aspx?displaylang=en&id=11774
+
+--> To connect we need "sqljdbc42.jar" and "sqljdbc_auth.dll".
+--> Place above files into class path and execute below program.
+
+
+package com.testng;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import org.testng.Reporter;
+import org.testng.annotations.Test;
+
+public class DBConnectionAndRetrieveData {
+	
+	Connection conn = null;
+
+	static String data;
+
+	@Test
+	public void retrieveData() throws SQLException {
+
+		try {
+			System.setProperty("java.library.path", "sqljdbc_auth.dll");
+
+			// mysql database connectivity
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver")
+					.newInstance();
+
+			conn = DriverManager
+					.getConnection("jdbc:sqlserver://localhost;database=Testing;integratedSecurity=true;",
+							"sa", "root");
+			
+			Reporter.log("Database connection established", true);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error message: " +e.getMessage());
+
+		}
+
+		try {
+			Statement st = conn.createStatement();
+			String sql = "select * from TestingTable";
+
+			ResultSet rs = st.executeQuery(sql);
+			ResultSetMetaData md = rs.getMetaData();
+			int colcount = md.getColumnCount();
+			Reporter.log("Sql Query : " + sql, true);
+			Reporter.log("Number of Column : " + colcount, true);
+			Reporter.log("Columnnames...........", true);
+			for (int j = 1; j <= colcount; j++) {
+				String col_name = md.getColumnName(j);
+				Reporter.log(col_name, true);
+			}// for
+
+			if (rs.next()) {
+				do {
+					for (int i = 1; i <= colcount; i++) {
+						data = rs.getString(i);
+						Reporter.log(data, true);
+					}// for
+					Reporter.log("....................................................",
+							true);
+				} while (rs.next());// do while
+			}
+		}// try
+		catch (SQLException s) {
+			System.out.println("SQL statement is not executed!:"
+					+ s.getMessage());
+
+		}// catch
+
+		finally {
+			if (conn != null && !conn.isClosed()) {
+				Reporter.log("Closing Database Connection", true);
+				conn.close();
+			}
+
+		}
+	}
+
+}
+
+<test name="Testing DB Connection">
+			<classes>
+			<class name="com.testng.DBConnectionAndRetrieveData" />
+		</classes>
+
+</test>

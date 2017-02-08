@@ -1,0 +1,210 @@
+Selenium grid2 or RemoteWebDriver:
+
+--> Goto below URl and download selenium-server-standalone-<version>.jar file and place it in workspace.
+
+http://selenium-release.storage.googleapis.com/index.html
+https://github.com/SeleniumHQ/selenium/wiki/Grid2
+
+--> How to execute selenium server(RC) from cmd?
+
+1) point  directory to selenium server jar.
+
+2) Type "java -jar selenium-server-standalone-<version>.jar"
+
+3) Execute and observe selenium server up and running with 4444 port.
+
+---> Running selenium grid
+
+1) open cmd and point  directory to selenium server jar.
+
+2) Type "java -jar selenium-server-standalone-<version>.jar -role hub"
+
+3) Execute and observe selenium hub up and running with 4444 port.
+
+4) open new cmd and point directory to selenium server jar for Node.
+
+5) Type "java -jar selenium-server-standalone-<version>.jar -role node -hub
+ http://localhost:4444/grid/register -Dwebdriver.ie.driver=Path of iedriver.exe -Dwebdriver.chrome.driver=path of Chromedriver.exe"
+
+6) Execute and observe selenium node up and running with 5555 port.
+
+7) To verify whether node is available open below url in any browser,we will see node browsers.
+
+ http://localhost:4444/grid/console
+
+ Now we are ready to execute our scripts against grid 
+
+Example scripts:
+
+Script 1:
+
+package com.grid;
+
+import java.net.URL;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+public class GridTest1 {
+	public static WebDriver driver;
+
+	@BeforeClass
+	@Parameters({"url" })
+	public void setUp(String url) throws Exception{
+		DesiredCapabilities capability =DesiredCapabilities.firefox();
+		driver =new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capability);
+		driver.get(url);
+		driver.manage().window().maximize();
+	}
+
+	@Test
+	public static void loginTest() throws Exception{
+
+		WebElement element=driver.findElement(By.name("userName"));
+		element.sendKeys("mercury");
+		driver.findElement(By.name("password")).sendKeys("mercury");
+		driver.findElement(By.name("login")).click();
+		Thread.sleep(30000);
+		driver.findElement(By.linkText("SIGN-OFF")).click();
+	}
+
+	@AfterClass
+	public void tearDown() {
+		driver.quit();
+	}
+
+
+}
+
+Script 2:
+
+package com.grid;
+
+import java.net.URL;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+public class GridTest2 {
+	
+	public static WebDriver driver;
+
+	@BeforeClass
+	@Parameters({"url" })
+	public void setUp(String url) throws Exception{
+		DesiredCapabilities capability =DesiredCapabilities.chrome();
+		driver =new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capability);
+		driver.get(url);
+		driver.manage().window().maximize();
+	}
+
+	@Test
+	public static void loginTest() throws Exception{
+
+		WebElement element=driver.findElement(By.name("userName"));
+		element.sendKeys("mercury");
+		driver.findElement(By.name("password")).sendKeys("mercury");
+		driver.findElement(By.name("login")).click();
+		Thread.sleep(10000);
+		driver.findElement(By.linkText("SIGN-OFF")).click();
+	}
+
+	@AfterClass
+	public void tearDown() {
+		driver.quit();
+	}
+
+}
+
+Script 3:
+
+package com.grid;
+
+import java.net.URL;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+public class GridTest3 {
+	
+	public static WebDriver driver;
+
+	@BeforeClass
+	@Parameters({"url" })
+	public void setUp(String url) throws Exception{
+		DesiredCapabilities capability =DesiredCapabilities.internetExplorer();
+		driver =new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capability);
+		driver.get(url);
+		driver.manage().window().maximize();
+	}
+
+	@Test
+	public static void loginTest() throws Exception{
+
+		WebElement element=driver.findElement(By.name("userName"));
+		element.sendKeys("mercury");
+		driver.findElement(By.name("password")).sendKeys("mercury");
+		driver.findElement(By.name("login")).click();
+		Thread.sleep(10000);
+		driver.findElement(By.linkText("SIGN-OFF")).click();
+	}
+
+	@AfterClass
+	public void tearDown() {
+		driver.quit();
+	}
+
+}
+
+Selenium Grid Xml:
+
+<suite name="TrainingTestSuite"  thread-count="10" parallel="tests">
+
+	
+	<test name="Testing Grid test1">
+		<parameter name="url" value="http://newtours.demoaut.com/"></parameter>
+
+		<classes>
+			<class name="com.grid.GridTest1" />
+		</classes>
+
+	</test>
+	<test name="Testing Grid test2">
+		<parameter name="url" value="http://newtours.demoaut.com/"></parameter>
+
+		<classes>
+			<class name="com.grid.GridTest2" />
+		</classes>
+
+	</test>
+	<test name="Testing Grid Test3">
+		<parameter name="url" value="http://newtours.demoaut.com/"></parameter>
+
+		<classes>
+			<class name="com.grid.GridTest3" />
+		</classes>
+
+	</test>
+
+</suite>

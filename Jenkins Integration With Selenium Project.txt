@@ -1,0 +1,60 @@
+Jenkins :
+
+This CI tool , which will help to executes automation scripts schedule based or time intervals.
+
+Jenkins integration with Selenium:
+
+Pre Requisites:
+
+1) Jenkins software 
+
+2) Apache maven software (Installed for maven)
+
+3) Java (Installed for Selenium)
+
+1)Jenkins installation:
+
+--> Go to below URL and download windows native package.
+   http://jenkins-ci.org/
+--> After downloading unzip the folder and doble click the application to install the software.
+--> To see Jenkins UI Up or not --> type http://localhost:8080 in browser --> if you see Jenkins Home page you are good to go.
+ 
+Integration and Execution of selenium scripts:
+
+Jenkins Global configuration:
+
+--> Click on 'Manage Jenkins' --> Click on 'Configure System' --> Add JDK path and Add Maven path --> Goto E-mail Notification and Enter SMTP Server Details --> Click on Save.
+
+Settingup a Project\Job in Jenkins:
+
+--> Click on 'New Item' --> Enter Job name(Ex:SampleProject) --> Select 'Maven Project' radio button and Click on 'Ok'.
+
+--> Enter description in  'Description' field (Optional)
+--> Under 'Source Code Management' section select 'None' if your source code available in localsystem or select version control tool and enter repository URL till POM.xml file path.
+
+--> If you want to schedule build goto 'Build triggers' section and select 'Build periodically' enter time interval in below format.
+
+This field follows the syntax of cron (with minor differences). Specifically, each line consists of 5 fields separated by TAB or whitespace:
+MINUTE HOUR DOM MONTH DOW
+MINUTE	Minutes within the hour (0–59)
+HOUR	The hour of the day (0–23)
+DOM	The day of the month (1–31)
+MONTH	The month (1–12)
+DOW	The day of the week (0–7) where 0 and 7 are Sunday.
+
+Examples: 
+1)To schedule build for every five minutes - H/5 * * * *
+2)To schedule every day at 7 AM - 0 7 * * *
+3)To Schedule 30 mins,7 AM,1st to 12th dates,Feb to Aug months and Monday to Friday - 30 7 (1-12) (2-8) (1-5)
+
+--> Enter full path POM.xml if you have project in local machine other wise leave it as it is.
+--> Goto Email notification and enter mail ids with sapce delimiter to whom you wants to send mails after job run.
+
+--> Finally save.
+--> Now you are good to invoke job.
+ 
+
+
+
+
+

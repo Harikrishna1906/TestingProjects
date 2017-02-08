@@ -1,0 +1,218 @@
+Java Interview Questions:
+
+Q:	
+What if the main method is declared as private?
+
+A:	 The program compiles properly but at runtime it will give "Main method not public." message.
+ 	
+
+Q:	
+What if the static modifier is removed from the signature of the main method?
+
+A:	 Program compiles. But at runtime throws an error "NoSuchMethodError".
+ 	
+
+
+Q:	
+What if I write static public void instead of public static void?
+
+A:	 Program compiles and runs properly.
+ 	
+
+
+Q:	
+What if I do not provide the String array as the argument to the method?
+
+A:	 Program compiles but throws a runtime error "NoSuchMethodError".
+ 	
+Q:	
+Can I have multiple main methods in the same class?
+
+A:	 No the program fails to compile. The compiler says that the main method is already defined in the class.
+
+Q:	
+Do I need to import java.lang package any time? Why ?
+
+A:	 No. It is by default loaded internally by the JVM.
+
+Q:	
+Can I import same package/class twice? Will the JVM load the package twice at runtime?
+
+A:	 One can import the same package or same class multiple times. Neither compiler nor JVM complains abt it. And the JVM will internally load the class only once no matter how many times you import the same class.
+
+Q:	
+What are Checked and UnChecked Exception?
+
+A:	A checked exception is some subclass of Exception (or Exception itself), excluding class RuntimeException and its subclasses.
+Making an exception checked forces client programmers to deal with the possibility that the exception will be thrown. eg, IOException thrown by java.io.FileInputStream's read() method·
+Unchecked exceptions are RuntimeException and any of its subclasses. Class Error and its subclasses also are unchecked. With an unchecked exception, however, the compiler doesn't force client programmers either to catch the
+exception or declare it in a throws clause. In fact, client programmers may not even know that the exception could be thrown. eg, StringIndexOutOfBoundsException thrown by String's charAt() method· Checked exceptions must be caught at compile time. Runtime exceptions do not need to be. Errors often cannot be.
+
+Q:	
+What are checked exceptions?
+
+A:	 Checked exception are those which the Java compiler forces you to catch. e.g. IOException are checked Exceptions.
+ 	
+
+Q:	
+What are runtime exceptions?
+
+A:	 Runtime exceptions are those exceptions that are thrown at runtime because of either wrong input data or because of wrong business logic etc. These are not checked by the compiler at compile time.
+
+Q:	
+What is the difference between error and an exception?
+
+A:	 An error is an irrecoverable condition occurring at runtime. Such as OutOfMemory error. These JVM errors and you can not repair them at runtime. While exceptions are conditions that occur because of bad input etc. e.g. FileNotFoundException will be thrown if the specified file does not exist. Or a NullPointerException will take place if you try using a null reference. In most of the cases it is possible to recover from an exception (probably by giving user a feedback for entering proper values etc.).
+
+
+Q:	
+What are the different ways to handle exceptions?
+
+A:	 There are two ways to handle exceptions, 
+1. By wrapping the desired code in a try block followed by a catch block to catch the exceptions. and 
+2. List the desired exceptions in the throws clause of the method and let the caller of the method hadle those exceptions
+
+Q:	
+What is the basic difference between the 2 approaches to exception handling.
+1> try catch block and 
+2> specifying the candidate exceptions in the throws clause?
+When should you use which approach?
+
+A:	 In the first approach as a programmer of the method, you urself are dealing with the exception. This is fine if you are in a best position to decide should be done in case of an exception. Whereas if it is not the responsibility of the method to deal with it's own exceptions, then do not use this approach. In this case use the second approach. In the second approach we are forcing the caller of the method to catch the exceptions, that the method is likely to throw. This is often the approach library creators use. They list the exception in the throws clause and we must catch them. You will find the same approach throughout the java libraries we use.
+
+Q:	
+Is it necessary that each try block must be followed by a catch block?
+
+A:	 It is not necessary that each try block must be followed by a catch block. It should be followed by either a catch block OR a finally block. And whatever exceptions are likely to be thrown should be declared in the throws clause of the method.
+
+
+
+Q:	
+If I write return at the end of the try block, will the finally block still execute?
+
+A:	 Yes even if you write return as the last statement in the try block and no exception occurs, the finally block will execute. The finally block will execute and then the control return.
+
+
+Q:	
+If I write System.exit (0); at the end of the try block, will the finally block still execute?
+
+A:	 No in this case the finally block will not execute because when you say System.exit (0); the control immediately goes out of the program, and thus finally never executes.
+
+Q:	
+What are different types of inner classes?
+
+A:	Nested top-level classes, Member classes, Local classes, Anonymous classes
+
+Nested top-level classes- If you declare a class within a class and specify the static modifier, the compiler treats the class just like any other top-level class.
+Any class outside the declaring class accesses the nested class with the declaring class name acting similarly to a package. eg, outer.inner. Top-level inner classes implicitly have access only to static variables.There can also be inner interfaces. All of these are of the nested top-level variety.
+
+Member classes - Member inner classes are just like other member methods and member variables and access to the member class is restricted, just like methods and variables. This means a public member class acts similarly to a nested top-level class. The primary difference between member classes and nested top-level classes is that member classes have access to the specific instance of the enclosing class.
+
+Local classes - Local classes are like local variables, specific to a block of code. Their visibility is only within the block of their declaration. In order for the class to be useful beyond the declaration block, it would need to implement a
+more publicly available interface.Because local classes are not members, the modifiers public, protected, private, and static are not usable.
+
+Anonymous classes - Anonymous inner classes extend local inner classes one level further. As anonymous classes have no name, you cannot provide a constructor.
+
+
+Q:	
+What is an abstract class?
+
+A:	 Abstract class must be extended/subclassed (to be useful). It serves as a template. A class that is abstract may not be instantiated (ie, you may not call its constructor), abstract class may contain static data. Any class with an abstract method is automatically abstract itself, and must be declared as such.
+A class may be declared abstract even if it has no abstract methods. This prevents it from being instantiated.
+ 	
+TOP
+
+Q:	
+What is static in java?
+
+A:	Static means one per class, not one for each object no matter how many instance of a class might exist. This means that you can use them without creating an instance of a class.Static methods are implicitly final, because overriding is done based on the type of the object, and static methods are attached to a class, not an object. A static method in a superclass can be shadowed by another static method in a subclass, as long as the original method was not declared final. However, you can't override a static method with a nonstatic method. In other words, you can't change a static method into an instance method in a subclass.
+ 	
+TOP
+
+Q:	
+What is final?
+
+A:	A final class can't be extended ie., final class may not be subclassed. A final method can't be overridden when its class is inherited. You can't change value of a final variable (is a constant).
+
+Q:	
+State the significance of public, private, protected, default modifiers both singly and in combination and state the effect of package relationships on declared items qualified by these modifiers.
+
+A:	public : Public class is visible in other packages, field is visible everywhere (class must be public too)
+private : Private variables or methods may be used only by an instance of the same class that declares the variable or method, A private feature may only be accessed by the class that owns the feature.
+protected : Is available to all classes in the same package and also available to all subclasses of the class that owns the protected feature.This access is provided even to subclasses that reside in a different package from the class that owns the protected feature.
+default :What you get by default ie, without any access modifier (ie, public private or protected).It means that it is visible to all within a particular package.
+
+Q:	
+What is the difference between a constructor and a method?
+
+A:	A constructor is a member function of a class that is used to create objects of that class. It has the same name as the class itself, has no return type, and is invoked using the new operator.
+A method is an ordinary member function of a class. It has its own name, a return type (which may be void), and is invoked using the dot operator.
+
+
+Q:	
+Difference between HashMap and HashTable?
+
+A:	The HashMap class is roughly equivalent to Hashtable, except that it is unsynchronized and permits nulls. (HashMap allows null values as key and value whereas Hashtable doesnt allow). HashMap does not guarantee that the order of the map will remain constant over time. HashMap is unsynchronized and Hashtable is synchronized.
+
+
+
+Q:	
+What is HashMap and Map?
+
+A:	Map is Interface and Hashmap is class that implements that.
+
+Q:	
+What is the purpose of garbage collection in Java, and when is it used?
+
+A:	The purpose of garbage collection is to identify and discard objects that are no longer needed by a program so that their resources can be reclaimed and reused. A Java object is subject to garbage collection when it becomes unreachable to the program in which it is used.
+
+
+Q:	
+What is the difference between an Interface and an Abstract class?
+
+A:	An abstract class can have instance methods that implement a default behavior. An Interface can only declare constants and instance methods, but cannot implement default behavior and all methods are implicitly abstract. An interface has all public members and no implementation. An abstract class is a class which may have the usual flavors of class members (private, protected, etc.), but has some abstract methods.
+
+
+Q:	
+What is the difference between declaring a variable and defining a variable?
+
+A:	 In declaration we just mention the type of the variable and it's name. We do not initialize it. But defining means declaration + initialization.
+e.g String s; is just a declaration while String s = new String ("abcd"); Or String s = "abcd"; are both definitions.
+
+
+Q:	
+What are wrapper classes?
+
+A:	 Java provides specialized classes corresponding to each of the primitive data types. These are called wrapper classes. They are e.g. Integer, Character, Double etc.
+
+Q:	
+How are this() and super() used with constructors?
+
+A:	 This() is used to invoke a constructor of the same class. super() is used to invoke a superclass constructor.
+
+Q:	
+What are synchronized methods and synchronized statements?
+
+A:	 Synchronized methods are methods that are used to control access to an object. A thread only executes a synchronized method after it has acquired the lock for the method's object or class. Synchronized statements are similar to synchronized methods. A synchronized statement can only be executed after a thread has acquired the lock for the object or class referenced in the synchronized statement.
+
+Q:	
+What happens if you dont initialize an instance variable of any of the primitive types in Java?
+
+A:	 Java by default initializes it to the default value for that primitive type. Thus an int will be initialized to 0, a boolean will be initialized to false.
+
+Q:	
+What happens if you dont initialize an instance variable of any of the primitive types in Java?
+
+A:	 Java by default initializes it to the default value for that primitive type. Thus an int will be initialized to 0, a boolean will be initialized to false.
+
+Q:	
+What will be the output of the following statement?
+System.out.println ("1" + 3);
+
+A:	 It will print 13.
+
+Q.What is Sigleton Class?
+
+A: The Singleton's purpose is to control object creation, limiting the number of obejcts to one only. Since there is only one Singleton instance, any instance fields of a Singleton will occur only once per class, just like static fields. Singletons often control access to resources such as database connections or sockets.
+
+For example, if you have a license for only one connection for your database or your JDBC driver has trouble with multithreading, the Singleton makes sure that only one connection is made or that only one thread can access the connection at a time.

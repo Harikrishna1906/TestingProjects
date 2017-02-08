@@ -1,0 +1,213 @@
+Java Interview Programs:
+
+Write a programs to swap to Variable(int) with out using Third one?
+
+
+//Swapping Method 1
+            x=x+y;
+            y=x-y;
+            x=x-y;
+
+
+//Swapping Method 2
+            x = x^y;
+            y = x^y;
+            x = x^y;
+
+ //Swapping Method 3
+            x = x*y;
+            y = x/y;
+            x = x/y;
+
+//Swapping Method 4
+            x = y-x+(y=x);
+
+Write a programs to swap to Variable(Strings) with out using Third one?
+
+Using Java:
+===========
+String s1 = "Shyam Sundar Baishya" ;
+String s2 ="Dilip Kumar";
+System.out.println("Before swapping ............");
+System.out.println("s3 == "+s1);
+System.out.println("s4 == "+s2);
+s1= s1+s2;
+System.out.println("....................");
+System.out.println("After swapping ............");
+s2 = s1.substring(0,(s1.length()-s2.length()));
+s1 = s1.substring(s2.length(),(s1.length())); 
+System.out.println("s3 == "+ s1);
+System.out.println("s4 == "+ s2); 
+
+
+Write a program to reverse string without java functions?
+
+import java.util.*;
+ 
+class ReverseString
+{
+   public static void main(String args[])
+   {
+      String original, reverse = "";
+      Scanner in = new Scanner(System.in);
+ 
+      System.out.println("Enter a string to reverse");
+      original = in.nextLine();
+ 
+      int length = original.length();
+ 
+      for ( int i = length - 1 ; i >= 0 ; i-- )
+         reverse = reverse + original.charAt(i);
+ 
+      System.out.println("Reverse of entered string is: "+reverse);
+   }
+}
+
+or
+
+public class Test {
+
+    public static void main(String args[]) {
+       StringBuffer buffer = new StringBuffer("Game Plan");
+       buffer.reverse();
+       System.out.println(buffer);
+   }  
+}
+
+
+
+
+write a program to reverse intiger without java functions?
+
+while (input != 0)
+{    
+     last_digit = input % 10;
+     if(last_digit % 2 != 0)
+     {     
+            reversedNum = reversedNum * 10 + last_digit;
+
+     }
+      input = input / 10; 
+}
+
+or
+
+ while( n != 0 )
+      {
+          reverse = reverse * 10;
+          reverse = reverse + n%10;
+          n = n/10;
+      }
+ 
+      System.out.println("Reverse of entered number is "+reverse);
+   }
+
+
+
+-->Reversing a Number using String operations 
+
+public static int reverse(int n) {
+   String input = String.valueOf(n);
+   String result = "";
+   for (int i = input.length() - 1; i >= 0; i--) {
+       result = result + input.charAt(i);
+   }
+   int reversedInt = Integer.parseInt(result);
+   return reversedInt;
+}
+
+
+-->Reversing a Number using StringBuilder 
+
+public static int reverse(int n) {
+   String inputString = String.valueOf(n);
+   StringBuffer stringBuffer = new StringBuffer(inputString);
+   stringBuffer.reverse();
+   String reversedString = stringBuffer.toString();
+   int reversedInt = Integer.parseInt(reversedString);
+   return reversedInt;
+}
+
+
+
+
+Write a program to verify duplicate values?
+
+/*
+     * brute force way of checking if array contains duplicates in Java
+     * comparing each elements to all other elements of array
+     * complexity on order of O(n^2) not advised in production
+     */
+    public static boolean bruteforce(String[] input) {
+        for (int i = 0; i < input.length; i++) {
+            for (int j = 0; j < input.length; j++) {
+                if (input[i].equals(input[j]) && i != j) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+/*
+     * detect duplicate in array by comparing size of List and Set
+     * since Set doesn't contain duplicate, size must be less for an array which contains duplicates
+     */
+    public static boolean checkDuplicateUsingSet(String[] input){
+        List inputList = Arrays.asList(input);
+        Set inputSet = new HashSet(inputList);
+        if(inputSet.size()< inputList.size())
+            return true;
+        }
+        return false;
+    }
+  
+    /*
+     * Since Set doesn't allow duplicates add() return false
+     * if we try to add duplicates into Set and this property
+     * can be used to check if array contains duplicates in Java
+     */
+    public static boolean checkDuplicateUsingAdd(String[] input) {
+        Set tempSet = new HashSet();
+        for (String str : input) {
+            if (!tempSet.add(str)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+Write a program to find out duplicate or repeated characters in a
+string, and calculate the count of repeatation?
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+ 
+public class DuplicateCharsInString {
+ 
+    public void findDuplicateChars(String str){
+         
+        Map<Character, Integer> dupMap = new HashMap<Character, Integer>(); 
+        char[] chrs = str.toCharArray();
+        for(Character ch:chrs){
+            if(dupMap.containsKey(ch)){
+                dupMap.put(ch, dupMap.get(ch)+1);
+            } else {
+                dupMap.put(ch, 1);
+            }
+        }
+        Set<Character> keys = dupMap.keySet();
+        for(Character ch:keys){
+            if(dupMap.get(ch) > 1){
+                System.out.println(ch+"--->"+dupMap.get(ch));
+            }
+        }
+    }
+     
+    public static void main(String a[]){
+        DuplicateCharsInString dcs = new DuplicateCharsInString();
+        dcs.findDuplicateChars("Java2Novice");
+    }
+}

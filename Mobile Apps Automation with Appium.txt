@@ -1,0 +1,242 @@
+Mobile App Automation with Appium:
+
+Appium is an open-source tool for automating native, mobile web and hybrid applications on iOS, Android and Firefox platforms.
+
+Advantages:
+
+1)You shouldn't have to recompile your app or modify it in any way in order to automate it.
+
+2)You shouldn't be locked into a specific language or framework to write and run your tests.There are client libraries (in Java, Ruby, Python, PHP, JavaScript, and C#) which support Appium's extensions to the WebDriver protocol.
+
+3) Appium supports follwing OS's,
+
+ a)iOS: Apple
+ b)Android 4.2+: Google
+ c)Android 2.3+: Google's Instrumentation(Selendroid)
+ d)Firefox 
+
+Appium integration with Selenium:
+
+Pre requisites:
+
+1) Java software
+
+--> Already installed for Selenium webdriver project
+
+2) Android studio\SDK Tools
+
+--> Download Android studio for windows installer from following url and Install,
+
+https://developer.android.com/sdk/index.html
+
+--> After installing set enviroment variables for following tools,
+
+1) SDK tools
+
+ANDROID_HOME="C:\Users\sreenivasulu\AppData\Local\Android\sdk"
+
+%ANDROID_HOME%\tools
+
+2)SDK Platform tools
+
+%ANDROID_HOME%\platform-tools
+
+3) Node.js
+
+--> Download windows installer from following url and Install,
+
+https://nodejs.org/download/release/latest/
+
+4) Appium server
+
+--> Download Appium.exe for Windows from following url and Install,
+
+http://appium.io/downloads.html
+
+5) Eclipse IDE 
+
+--> Already downloaded for Selenium webdriver project
+
+6) Selenium Webdriver jars
+
+--> Already downloaded for Selenium webdriver project
+
+7) Android pluggin for Eclipse
+
+--> Install pluggin from following url
+
+ADT Plugin - https://dl-ssl.google.com/android/eclipse/
+
+8) Appium Java client jar file
+
+--> We can add dependecy in our POM.xml like below
+
+                <dependency>
+			<groupId>io.appium</groupId>
+			<artifactId>java-client</artifactId>
+			<version>LATEST</version>
+		</dependency>
+
+Write program to automate calculator in mobile?
+
+package org.mobile;
+
+import java.net.URL;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+
+public class MobileAppTest {
+
+	public AndroidDriver<WebElement> driver;
+
+	@BeforeClass
+	public void setUp() throws Exception {
+
+		DesiredCapabilities cap = new DesiredCapabilities();
+		cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Training");
+		cap.setCapability(MobileCapabilityType.VERSION, "5.0.1");
+		cap.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+		cap.setCapability("appPackage", "com.android.calculator2");
+		cap.setCapability("appActivity", "com.android.calculator2.Calculator");
+		driver = new AndroidDriver<WebElement>(new URL("http://localhost:4723/wd/hub"), cap);
+	}
+
+	@Test
+	public void cal() {
+
+		WebElement digitEight = driver.findElement(By.id("digit_8"));
+		digitEight.click();
+		WebElement mulKey = driver.findElement(By.id("op_mul"));
+		mulKey.click();
+		WebElement digitFive = driver.findElement(By.id("digit_5"));
+		digitFive.click();
+		WebElement equalsKey = driver.findElement(By.id("eq"));
+		equalsKey.click();
+		String resultValue = driver.findElement(By.id("formula")).getText();
+		Reporter.log("After multiple the value is   " + resultValue, true);
+
+	}
+
+	@AfterClass
+	public void tearDown() {
+
+		driver.quit();
+	}
+
+}
+
+import java.net.URL;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+
+public class BrowserTest {	
+
+	public AndroidDriver<WebElement> driver;
+
+	@BeforeClass
+	public void setUp()throws Exception{		
+		DesiredCapabilities cap = new DesiredCapabilities();
+		cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Training");
+		cap.setCapability(MobileCapabilityType.VERSION, "5.0.1");
+		cap.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+		cap.setCapability(MobileCapabilityType.BROWSER_NAME, "Browser");
+		driver = new AndroidDriver<WebElement>(new URL("http://localhost:4723/wd/hub"), cap);
+		driver.get("http://www.google.co.in");
+	}
+
+	@Test
+	public void searchTest() {		
+		WebElement searchElement = driver.findElement(By.id("lst-ib"));
+		searchElement.sendKeys("Selenium Testing");
+		searchElement.clear();
+		searchElement.sendKeys("Selenium WebDriver");
+		driver.findElement(By.name("btnG")).click();
+	}
+
+	@AfterClass
+	public void tearDown() {
+		driver.quit();
+		Reporter.log("Script executed and Browser Closed");
+	}
+
+}
+
+
+import java.net.URL;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+
+public class BrowserTestOnRealDevice {	
+
+	public AndroidDriver<WebElement> driver;
+
+	@BeforeClass
+	public void setUp()throws Exception{		
+		DesiredCapabilities cap = new DesiredCapabilities();
+		cap.setCapability(MobileCapabilityType.DEVICE_NAME, "169cdce2");
+		cap.setCapability(MobileCapabilityType.VERSION, "6.0.1");
+		cap.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+		cap.setCapability(MobileCapabilityType.BROWSER_NAME, "Chrome");
+		driver = new AndroidDriver<WebElement>(new URL("http://localhost:4723/wd/hub"), cap);
+		driver.get("http://www.google.co.in");
+	}
+
+	@Test
+	public void searchTest() {		
+		WebElement searchElement = driver.findElement(By.id("lst-ib"));
+		searchElement.sendKeys("Selenium Testing");
+		searchElement.clear();
+		searchElement.sendKeys("Selenium WebDriver");
+		driver.findElement(By.name("btnG")).click();
+	}
+
+	@AfterClass
+	public void tearDown() {
+		driver.quit();
+		Reporter.log("Script executed and Browser Closed");
+	}
+
+}
+
+<test name="Testing mobile app on Andriod">
+		<classes>
+			<class name="org.mobile.MobileAppTest" />
+		</classes>
+	</test>
+
+--> To install external apps use following command:
+
+adb -s emulator-5554 install apk name
+
+Example:
+
+adb -s emulator-5554 install AndroidCalculator.apk
+
+--> To know attached devices open command prompt Type -- adb devices
